@@ -28,7 +28,6 @@ public abstract class AbstractDto implements Serializable {
     @JsonView({TaskViews.DetailedView.class})
     @JsonProperty("updated_at")
     private Instant updatedAt;
-
 }
 
 class TaskViews{

@@ -23,7 +23,7 @@ public class Task extends AbstractEntity {
 
     @NotNull
     @Column(name = "state")
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = TaskStateConverter.class)
     private TaskState taskState;
 
     @Builder

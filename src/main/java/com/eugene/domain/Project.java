@@ -17,11 +17,12 @@ public class Project extends AbstractEntity{
 
     @NotNull
     @Column(name = "state")
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = TaskStateConverter.class)
     private TaskState state;
 
     @Builder
     public Project(Long id, String name, TaskState state) {
+        super.setId(id);
         this.name = name;
         this.state = state;
     }
