@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "task")
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Task extends AbstractEntity {
 
     @Column(length = 50, nullable = false)

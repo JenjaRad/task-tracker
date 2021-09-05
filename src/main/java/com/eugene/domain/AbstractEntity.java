@@ -44,6 +44,19 @@ public abstract class AbstractEntity implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AbstractEntity)) return false;
+        AbstractEntity that = (AbstractEntity) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
     @PrePersist
     public void toCreate() {
         this.setCreatedAt(Instant.now());

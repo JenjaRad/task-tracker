@@ -3,14 +3,12 @@ package com.eugene.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
-import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.time.Instant;
 
-@Data
 public abstract class AbstractDto implements Serializable {
 
     @Null(groups = {TaskViews.NewTask.class})
@@ -28,6 +26,30 @@ public abstract class AbstractDto implements Serializable {
     @JsonView({TaskViews.DetailedView.class})
     @JsonProperty("updated_at")
     private Instant updatedAt;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }
 
 class TaskViews{
