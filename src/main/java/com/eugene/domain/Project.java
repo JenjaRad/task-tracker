@@ -3,6 +3,7 @@ package com.eugene.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -12,7 +13,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Project extends AbstractEntity{
 
-    @Column(length = 50, nullable = false)
+    @NotBlank
+    @Column(name = "name", length = 50, nullable = false)
     private String name;
 
     @NotNull
