@@ -15,14 +15,10 @@ public class ProjectDto extends AbstractDto {
     @NonNull
     private String name;
 
-    @JsonProperty("state")
-    private TaskState state;
-
     @Builder
-    public ProjectDto(Long id, String name, TaskState state) {
+    public ProjectDto(Long id, String name) {
         super.setId(id);
         this.name = name;
-        this.state = state;
     }
 }
 

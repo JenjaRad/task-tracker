@@ -26,6 +26,10 @@ public class Task extends AbstractEntity {
     @Convert(converter = TaskStateConverter.class)
     private TaskState taskState;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "project_id", referencedColumnName = "id")
+    private Project project;
+
     @Builder
     public Task(Long id, String name, String description, TaskState taskState) {
         this.setId(id);

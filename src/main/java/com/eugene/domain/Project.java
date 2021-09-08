@@ -4,7 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @Table(name = "project")
@@ -17,15 +17,17 @@ public class Project extends AbstractEntity{
     @Column(name = "name", length = 50, nullable = false)
     private String name;
 
-    @NotNull
-    @Column(name = "state")
-    @Convert(converter = TaskStateConverter.class)
-    private TaskState state;
+    @OneToMany(
+            cascade = CascadeType.PERSIST,
+            orphanRemoval = true,
+            mappedBy = "project"
+    )
+    private List<Task> tasks;
 
     @Builder
-    public Project(Long id, String name, TaskState state) {
+    public Project(Long id, String name, List<Task> tasks) {
         super.setId(id);
         this.name = name;
-        this.state = state;
+        this.tasks = tasks;
     }
 }
