@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
-public class Project extends AbstractEntity{
+public class Project extends AbstractEntity {
 
     @NotBlank
     @Column(name = "name", length = 50, nullable = false)
@@ -29,5 +29,15 @@ public class Project extends AbstractEntity{
         super.setId(id);
         this.name = name;
         this.tasks = tasks;
+    }
+
+    public void addTask(Task task) {
+        this.tasks.add(task);
+        task.setProject(this);
+    }
+
+    public void removeTask(Task task) {
+        this.tasks.remove(task);
+        task.setProject(null);
     }
 }
