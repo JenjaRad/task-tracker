@@ -28,9 +28,9 @@ public abstract class AbstractMapper<E extends AbstractEntity, D extends Abstrac
         this.dtoClass = dtoClass;
     }
 
-    public abstract void mapEntityToDto(E entity, D dto);
+    public abstract void mapSpecificFieldsOfEntityToDto(E entity, D dto);
 
-    public abstract void mapDtoToEntity(D dto, E entity);
+    public abstract void mapSpecificFieldsOfDtoToEntity(D dto, E entity);
 
     @Override
     public AbstractEntity toEntity(AbstractDto dto) {
@@ -50,7 +50,7 @@ public abstract class AbstractMapper<E extends AbstractEntity, D extends Abstrac
         return converter -> {
             E source = converter.getSource();
             D destination = converter.getDestination();
-            mapEntityToDto(source , destination);
+            mapSpecificFieldsOfEntityToDto(source , destination);
             return converter.getDestination();
         };
     }
@@ -59,7 +59,7 @@ public abstract class AbstractMapper<E extends AbstractEntity, D extends Abstrac
         return converter -> {
             D source = converter.getSource();
             E destination = converter.getDestination();
-            mapDtoToEntity(source , destination);
+            mapSpecificFieldsOfDtoToEntity(source , destination);
             return converter.getDestination();
         };
     }

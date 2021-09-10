@@ -16,7 +16,6 @@ public class TaskStateConverter implements AttributeConverter<TaskState, String>
     @Override
     public TaskState convertToEntityAttribute(String description) {
         return Stream.of(TaskState.values())
-                .filter(Objects::nonNull)
                 .filter(state -> state.getDescription()
                         .equals(description))
                 .findFirst()
