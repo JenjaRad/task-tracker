@@ -5,7 +5,6 @@ import com.eugene.dto.TaskDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.annotation.PostConstruct;
 import java.util.Objects;

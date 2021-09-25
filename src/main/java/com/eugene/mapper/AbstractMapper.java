@@ -33,14 +33,14 @@ public abstract class AbstractMapper<E extends AbstractEntity, D extends Abstrac
     public abstract void mapSpecificFieldsOfDtoToEntity(D dto, E entity);
 
     @Override
-    public AbstractEntity toEntity(AbstractDto dto) {
+    public E toEntity(AbstractDto dto) {
         return Objects.nonNull(dto)
                 ? mapper.map(dtoClass, entityClass)
                 : null;
     }
 
     @Override
-    public AbstractDto toDto(AbstractEntity entity) {
+    public D toDto(AbstractEntity entity) {
         return Objects.nonNull(entity)
                 ? mapper.map(entityClass, dtoClass)
                 : null;

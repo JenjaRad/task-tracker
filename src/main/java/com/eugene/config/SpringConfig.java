@@ -19,4 +19,5 @@ public class SpringConfig {
                 .setFieldAccessLevel(PRIVATE);
         return mapper;
     }
+
 }
