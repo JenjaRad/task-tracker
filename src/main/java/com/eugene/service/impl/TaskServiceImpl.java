@@ -9,6 +9,10 @@ import com.eugene.service.exception.EntityNotFoundException;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,9 +58,22 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskDto> getAll() {
-        return null;
+    public List<TaskDto> getAll(Pageable pageable, String sortField, String sortDirection) {
+        Sort field = Sort.by(sortField);
+        Sort direction = sortDirection.equals("asc") ? field.ascending() : field.descending();
+        Pageable page = PageRequest.of(pageable.getPageSize(), pageable.getPageNumber(), direction);
+        Page<Task> tasks = Optional.ofNullable(taskRepo.findAll(page))
+                .orElseThrow(() -> {
+                    log.error("Page with tasks cannot be null or empty : {}", page);
+                    return new EntityNotFoundException(String.format("Cannot find all tasks by this specific page %b", page));
+                });
+
+        log.info("Get All tasks {}", tasks.getTotalElements());
+        return tasks.stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
     }
+
 
     @Override
     public List<TaskDto> getAllByUserId(Long id) {
@@ -78,7 +95,7 @@ public class TaskServiceImpl implements TaskService {
         if (StringUtils.isEmpty(username)) {
             throw new IllegalArgumentException("Username cannot be null or empty");
         }
-        List<Task> tasks = Optional.ofNullable(taskRepo.findAllByUsername(username))
+        List<Task> tasks = Optional.ofNullable(taskRepo.findAllByUserUsername(username))
                 .orElseThrow(() -> {
                     log.error("Cannot find tasks by this username : {}", username);
                     return new EntityNotFoundException(String.format("Cannot find tasks with this username %s", username));

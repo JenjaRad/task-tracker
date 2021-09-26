@@ -30,6 +30,10 @@ public class Task extends AbstractEntity {
     @JoinColumn(name = "project_id", referencedColumnName = "id")
     private Project project;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id" , referencedColumnName = "id")
+    private User user;
+
     @Builder
     public Task(Long id, String name, String description, TaskState taskState) {
         this.setId(id);

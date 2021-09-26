@@ -2,6 +2,7 @@ package com.eugene.service;
 
 import com.eugene.domain.Task;
 import com.eugene.dto.TaskDto;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface TaskService {
 
     Task getTaskById(Long id);
 
-    List<TaskDto> getAll();
+    List<TaskDto> getAll(Pageable pageable , String sortField , String sortDirection);
 
     List<TaskDto> getAllByUserId(Long id);
 

@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -40,7 +41,17 @@ public class User extends AbstractEntity{
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(
+            cascade = CascadeType.PERSIST,
+            orphanRemoval = true,
+            mappedBy = "user"
+    )
+    private List<Task> tasks;
+
+    @ManyToMany(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.PERSIST
+    )
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
@@ -62,5 +73,9 @@ public class User extends AbstractEntity{
 
     public void addRole(Role role){
         this.roles.add(role);
+    }
+
+    public void addTask(Task task){
+        this.tasks.add(task);
     }
 }

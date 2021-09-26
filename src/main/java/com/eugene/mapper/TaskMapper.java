@@ -40,8 +40,8 @@ public class TaskMapper extends AbstractMapper<Task, TaskDto> {
 
     @Override
     public void mapSpecificFieldsOfDtoToEntity(TaskDto dto, Task entity) {
-        if (dto.getState() != null) {
-            entity.setTaskState(dto.getState());
+        if (dto.getTaskState() != null) {
+            entity.setTaskState(dto.getTaskState());
         }
     }
 }

@@ -21,18 +21,18 @@ public class TaskDto extends AbstractDto {
     private String description;
 
     @JsonProperty(value = "state")
-    private TaskState state;
+    private TaskState taskState;
 
     @NotNull(groups = {TaskViews.NewTask.class}, message = "Project id cannot be null")
     @JsonView({TaskViews.StandardView.class, TaskViews.DetailedView.class})
     private Long projectId;
 
     @Builder
-    public TaskDto(Long id, String name, String description, TaskState state, Long projectId) {
+    public TaskDto(Long id, String name, String description, TaskState taskState, Long projectId) {
         super.setId(id);
         this.name = name;
         this.description = description;
-        this.state = state;
+        this.taskState = taskState;
         this.projectId = projectId;
     }
 }
