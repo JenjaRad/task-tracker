@@ -17,16 +17,13 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.data.domain.*;
 
-import java.util.List;
 
 import static com.eugene.unit.TaskUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.LENIENT)
 class TaskServiceTest {
 
     @Mock
@@ -59,7 +56,9 @@ class TaskServiceTest {
         Task task = buildTask(1L, "Task", "Task", TaskState.IN_PROGRESS);
         when(taskRepo.getById(anyLong())).thenReturn(task);
         Task taskById = taskService.getTaskById(1L);
-        assertThat(taskById).isNotNull();
-        assertThat(taskById).isEqualTo(task);
+        assertThat(taskById).satisfies(id->{
+            assertThat(id).isNotNull();
+            assertThat(id).isEqualTo(task);
+        });
     }
 }
