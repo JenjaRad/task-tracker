@@ -11,10 +11,12 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
+@ToString(onlyExplicitlyIncluded = true)
 public class Task extends AbstractEntity {
 
     @Column(length = 50, nullable = false)
     @NotBlank(message = "Task name must be not null or blank")
+    @ToString.Include
     private String name;
 
     @Column(nullable = false)
@@ -24,6 +26,7 @@ public class Task extends AbstractEntity {
     @NotNull
     @Column(name = "state")
     @Convert(converter = TaskStateConverter.class)
+    @ToString.Include
     private TaskState taskState;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -50,7 +51,7 @@ public class TaskServiceImpl implements TaskService {
         log.info("getTaskById - {} is execute");
         Task task = Optional.ofNullable(taskRepo.getById(id))
                 .orElseThrow(() -> {
-                    log.error("Task ID cannot be null : {}", id);
+                    log.error("Task ID cannot be null or not exist: {}", id);
                     return new EntityNotFoundException(String.format("Cannot find task by this ID: %d", id));
                 });
         log.info("Get task with this ID : {}", task.getId());
@@ -58,22 +59,19 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskDto> getAll(Pageable pageable, String sortField, String sortDirection) {
+    public Page<TaskDto> getAll(Pageable pageable, String sortField, String sortDirection) {
         Sort field = Sort.by(sortField);
         Sort direction = sortDirection.equals("asc") ? field.ascending() : field.descending();
-        Pageable page = PageRequest.of(pageable.getPageSize(), pageable.getPageNumber(), direction);
-        Page<Task> tasks = Optional.ofNullable(taskRepo.findAll(page))
+        Pageable page = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), direction);
+        Page<TaskDto> tasks = Optional.ofNullable(taskRepo.findAll(page).map(mapper::toDto))
                 .orElseThrow(() -> {
                     log.error("Page with tasks cannot be null or empty : {}", page);
-                    return new EntityNotFoundException(String.format("Cannot find all tasks by this specific page %b", page));
+                    return new EntityNotFoundException(String.format("Cannot find all tasks by this specific page - %s", page));
                 });
-
-        log.info("Get All tasks {}", tasks.getTotalElements());
-        return tasks.stream()
-                .map(mapper::toDto)
-                .collect(Collectors.toList());
+        log.info("Get all tasks : {}", tasks.getTotalElements());
+        log.info("Get total pages : {} ",tasks.getTotalPages());
+        return tasks;
     }
-
 
     @Override
     public List<TaskDto> getAllByUserId(Long id) {
@@ -113,16 +111,19 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @Transactional
     public TaskDto update(TaskDto task) {
         return null;
     }
 
     @Override
+    @Transactional
     public TaskDto updateTaskStateByTaskId(Long taskId, String status) {
         return null;
     }
 
     @Override
+    @Transactional
     public void delete(TaskDto task) {
     }
 }

@@ -1,5 +1,6 @@
 package com.eugene.dto;
 
+import com.eugene.domain.Task;
 import com.eugene.domain.TaskState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -35,4 +36,5 @@ public class TaskDto extends AbstractDto {
         this.taskState = taskState;
         this.projectId = projectId;
     }
+
 }
